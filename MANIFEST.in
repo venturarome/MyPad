@@ -1,0 +1,3 @@
+graft myPad/templates
+graft myPad/static
+include myPad/schema.sql
