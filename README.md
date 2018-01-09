@@ -26,5 +26,5 @@ The code is distributed as a package. To install it, it is reccommended to use a
 6. ```cd myPad```
 7. Clone git repo there
 8. ```pip install --editable .``` (That will create a \*.egg-info folder)
-9. export FLASK\_APP=flaskr && export FLASK\_DEBUG=true
-10. flask run
+9. ```export FLASK\_APP=flaskr && export FLASK\_DEBUG=true```
+10. ```flask run```
