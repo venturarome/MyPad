@@ -32,6 +32,11 @@ The code is distributed as a package. To install it, it is reccommended to use a
 12. ```flask run```
 
 #### Test environment
+Links used as reference:
+[Tutorial - bonus](http://flask.pocoo.org/docs/0.12/tutorial/testing/)
+[Testing manual](http://flask.pocoo.org/docs/0.12/testing/#testing)
+[More complete example](https://github.com/pallets/flask/tree/master/examples/minitwit/)
+
 To run tests, additional steps are to be followed:
 1. create:(top level dir) myPad/tests/test_myPad.py
 2. ```pip install --user -e .```

@@ -1,1 +1,57 @@
+import os
+from myPad import myPad
+import unittest   # comes along with python
+import tempfile
 
+class MyPadTestCase(unittest.TestCase):
+    # Mandatory methods: setUp and tearDown
+    def setUp(self):
+        """Creates a new test client and initializes a new db. Called for every individual test."""
+        self.db_fd, myPad.app.config['DATABASE'] = tempfile.mkstemp()
+        myPad.app.testing = True   #enable testing flag.
+        self.app = myPad.app.test_client()
+        with myPad.app.app_context():
+            myPad.init_db()
+
+    def tearDown(self):
+        """Deletes the database after each test."""
+        os.close(self.db_fd)
+        os.unlink(myPad.app.config['DATABASE'])
+
+    # Other methods: those which represent a test always start with 'test'.
+    def test_empty_db(self):
+        rv = self.app.get('/')
+        assert b'No entries here so far' in rv.data
+        
+    def login(self, username, password):
+        return self.app.post('/login', data=dict(
+            username=username,
+            password=password
+        ), follow_redirects=True)
+
+    def logout(self):
+        return self.app.get('/logout', follow_redirects=True)
+    
+    def test_login_logout(self):
+        rv = self.login('admin', 'default')
+        assert b'You were logged in' in rv.data
+        rv = self.logout()
+        assert b'You were logged out' in rv.data
+        rv = self.login('adminx', 'default')
+        assert b'Invalid username' in rv.data
+        rv = self.login('admin', 'defaultx')
+        assert b'Invalid password' in rv.data
+        
+    def test_messages(self):
+        self.login('admin', 'default')
+        rv = self.app.post('/add', data=dict(
+            title='<Hello>',
+            text='<strong>HTML</strong> allowed here'
+        ), follow_redirects=True)
+        assert b'No entries here so far' not in rv.data
+        assert b'&lt;Hello&gt;' in rv.data
+        assert b'<strong>HTML</strong> allowed here' in rv.data
+    
+        
+if __name__ == '__main__':
+    unittest.main()
