@@ -25,6 +25,16 @@ The code is distributed as a package. To install it, it is reccommended to use a
 5. ```mkdir myPad```
 6. ```cd myPad```
 7. Clone git repo there
-8. ```pip install --editable .``` (That will create a \*.egg-info folder)
-9. ```export FLASK\_APP=flaskr && export FLASK\_DEBUG=true```
-10. ```flask run```
+8. ```pip install -e .``` [alternative if fails: pip install --user -e .] (That will create a \*.egg-info folder)
+9. ```export FLASK\_APP=myPad && export FLASK\_DEBUG=true```
+10. cd myPad
+11. flask initdb (to create it from zero or to delete the previous one!)
+12. ```flask run```
+
+#### Test environment
+To run tests, additional steps are to be followed:
+1. create:(top level dir) myPad/tests/test_myPad.py
+2. ```pip install --user -e .```
+3. ```pip install --user pytest```
+4. run tests from top level dir: ```py.test```
+
